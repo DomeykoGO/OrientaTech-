@@ -256,7 +256,7 @@
                         <div class="flex items-center justify-between mb-3">
                             <h3 class="text-lg font-bold text-blue-950 flex items-center">
                                 <i data-lucide="map" class="w-5 h-5 mr-2 text-blue-700"></i>
-                                Plano <span id="subtitulo-piso" class="ml-1.5 text-blue-700 font-extrabold">- Piso 1</span>
+                                Plano <span id="subtitulo-piso" class="ml-1.5 text-blue-700 font-extrabold">Piso 1</span>
                             </h3>
                             <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
                                 Vista en planta
@@ -287,7 +287,7 @@
                             </div>
 
                             <!-- Lista de símbolos / colores -->
-                            <ul id="detalle-nomenclatura" class="space-y-2.5 text-sm">
+                            <ul id="detalle-nomenclatura" class="space-y-2 text-sm">
                                 <!-- Se llena dinámicamente con JS -->
                             </ul>
                         </div>
@@ -316,18 +316,21 @@
     <script>
         lucide.createIcons();
 
-        // Configuración de los 5 sectores, sus pisos y su nomenclatura
+        // Configuración de los 5 sectores, sus pisos y su nomenclatura unificada
         const datosSectores = {
             domeyko: {
                 titulo: "Ignacio Domeyko",
                 etiqueta: "Edificio Principal",
                 pisos: ["Subterráneo", "Piso 1", "Piso 2", "Piso 3"],
                 nomenclatura: [
-                    { color: "bg-blue-950", texto: "Salas de Clases" },
-                    { color: "bg-blue-600", texto: "Oficinas Administrativas" },
-                    { color: "bg-sky-500", texto: "Auditórium / Biblioteca" },
-                    { color: "bg-emerald-500", texto: "Servicios Higiénicos" },
-                    { color: "bg-slate-600", texto: "Escaleras / Emergencia" }
+                    { color: "bg-[#1A365D]", texto: "Salas" },
+                    { color: "bg-[#2F855A]", texto: "Baños" },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
+                    { color: "bg-[#4A5568]", texto: "Oficinas" },
+                    { color: "bg-[#553C9A]", texto: "Departamentos" },
+                    { color: "bg-[#319795]", texto: "C.E.C" },
+                    { color: "bg-[#B7791F]", texto: "Bodega" },
+                    { color: "bg-[#D69E2E]", texto: "Servicios" }
                 ]
             },
             industrial: {
@@ -335,11 +338,14 @@
                 etiqueta: "Departamento de Ingeniería",
                 pisos: ["Piso 1", "Piso 2"],
                 nomenclatura: [
-                    { color: "bg-blue-950", texto: "Aulas Docentes" },
-                    { color: "bg-blue-600", texto: "Salas de Estudio" },
-                    { color: "bg-sky-500", texto: "Secretaría / Dirección" },
-                    { color: "bg-emerald-500", texto: "Servicios Higiénicos" },
-                    { color: "bg-slate-600", texto: "Vía de Evacuación" }
+                    { color: "bg-[#1A365D]", texto: "Salas" },
+                    { color: "bg-[#2F855A]", texto: "Baños" },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
+                    { color: "bg-[#4A5568]", texto: "Oficinas" },
+                    { color: "bg-[#553C9A]", texto: "Departamentos" },
+                    { color: "bg-[#319795]", texto: "C.E.C" },
+                    { color: "bg-[#B7791F]", texto: "Bodega" },
+                    { color: "bg-[#D69E2E]", texto: "Servicios" }
                 ]
             },
             mecanica: {
@@ -347,11 +353,14 @@
                 etiqueta: "Talleres e Ingeniería",
                 pisos: ["Piso 1", "Piso 2", "Piso 3", "Piso 4"],
                 nomenclatura: [
-                    { color: "bg-blue-950", texto: "Talleres y Maquinaria" },
-                    { color: "bg-indigo-600", texto: "Laboratorios Técnicos" },
-                    { color: "bg-sky-500", texto: "Salas de Clases / CAD" },
-                    { color: "bg-blue-600", texto: "Oficinas Académicos" },
-                    { color: "bg-slate-600", texto: "Zona de Seguridad" }
+                    { color: "bg-[#1A365D]", texto: "Salas" },
+                    { color: "bg-[#2F855A]", texto: "Baños" },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
+                    { color: "bg-[#4A5568]", texto: "Oficinas" },
+                    { color: "bg-[#553C9A]", texto: "Departamentos" },
+                    { color: "bg-[#319795]", texto: "C.E.C" },
+                    { color: "bg-[#B7791F]", texto: "Bodega" },
+                    { color: "bg-[#D69E2E]", texto: "Servicios" }
                 ]
             },
             cetefi: {
@@ -359,11 +368,14 @@
                 etiqueta: "Centro Tecnológico",
                 pisos: ["Piso 1", "Piso 2", "Piso 3", "Piso 4"],
                 nomenclatura: [
-                    { color: "bg-blue-950", texto: "Laboratorios de Física" },
-                    { color: "bg-sky-500", texto: "Salas de Computación" },
-                    { color: "bg-blue-600", texto: "Coordinación Docente" },
-                    { color: "bg-emerald-500", texto: "Servicios Higiénicos" },
-                    { color: "bg-slate-600", texto: "Salida de Emergencia" }
+                    { color: "bg-[#1A365D]", texto: "Salas" },
+                    { color: "bg-[#2F855A]", texto: "Baños" },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
+                    { color: "bg-[#4A5568]", texto: "Oficinas" },
+                    { color: "bg-[#553C9A]", texto: "Departamentos" },
+                    { color: "bg-[#319795]", texto: "C.E.C" },
+                    { color: "bg-[#B7791F]", texto: "Bodega" },
+                    { color: "bg-[#D69E2E]", texto: "Servicios" }
                 ]
             },
             exterior: {
@@ -371,11 +383,12 @@
                 etiqueta: "Vista General del Campus",
                 pisos: ["Piso 1 (Exterior)"],
                 nomenclatura: [
-                    { color: "bg-blue-950", texto: "Accesos Peatonales" },
-                    { color: "bg-emerald-600", texto: "Áreas Verdes y Patios" },
-                    { color: "bg-sky-500", texto: "Casino / Cafetería" },
-                    { color: "bg-slate-500", texto: "Estacionamientos" },
-                    { color: "bg-slate-700", texto: "Punto de Encuentro (Z.S.)" }
+                    { color: "bg-[#2D3748]", texto: "Estacionamientos" },
+                    { color: "bg-[#9B2C2C]", texto: "Casino" },
+                    { color: "bg-[#2F855A]", texto: "Baños" },
+                    { color: "bg-[#319795]", texto: "C.E.C" },
+                    { color: "bg-[#B7791F]", texto: "Bodega" },
+                    { color: "bg-[#D69E2E]", texto: "Servicios" }
                 ]
             }
         };
@@ -394,7 +407,6 @@
 
             info.pisos.forEach((piso, index) => {
                 const btn = document.createElement('button');
-                // Botón activo con fondo blanco y texto oscuro para mantener coherencia
                 btn.className = index === 0
                     ? "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-white text-blue-950 shadow-sm transition-all"
                     : "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition-all";
@@ -409,7 +421,7 @@
 
             info.nomenclatura.forEach(item => {
                 const li = document.createElement('li');
-                li.className = "flex items-center bg-white p-2.5 rounded-xl border border-slate-200/90 shadow-xs";
+                li.className = "flex items-center bg-white px-2.5 py-1.5 rounded-lg border border-slate-200/90 shadow-2xs text-xs sm:text-sm";
                 li.innerHTML = `
                     <span class="w-4 h-4 rounded-md ${item.color} mr-3 shrink-0 shadow-xs"></span>
                     <span class="text-slate-700 font-medium leading-tight">${item.texto}</span>
