@@ -399,7 +399,7 @@
                 pisos: ["Piso 1 (Exterior)"],
                 grupos: [
                     {
-                        subtitulo: "IGNACIO DOMEYKO",
+                        subtitulo: "ID NORTE",
                         items: [
                             { color: "bg-[#1A365D]", texto: "PRINCIPAL", items: ["..."] },
                             { color: "bg-[#2B6CB0]", texto: "INDUSTRIAL", items: ["..."] },
@@ -407,19 +407,17 @@
                             { color: "bg-[#9B2C2C]", texto: "MEDICO", items: ["..."] },
                             { color: "bg-[#2D3748]", texto: "ESTACIONAMIENTOS", items: ["..."] },
                             { color: "bg-[#B7791F]", texto: "MINAS", items: ["..."] },
-                            { color: "bg-[#319795]", texto: "PATIOS", items: ["..."] },
                             { color: "bg-[#2F855A]", texto: "BAÑO", items: ["..."] }
                         ]
                     },
                     {
-                        subtitulo: "MECÁNICA",
+                        subtitulo: "ID SUR",
                         items: [
                             { color: "bg-[#4A5568]", texto: "DGAE", items: ["..."] },
                             { color: "bg-[#D69E2E]", texto: "FUNDICION", items: ["..."] },
                             { color: "bg-[#1A365D]", texto: "MECANICA 1", items: ["..."] },
                             { color: "bg-[#2B6CB0]", texto: "MECANICA 2", items: ["..."] },
                             { color: "bg-[#553C9A]", texto: "BIBLIOTECA Central Irma Salas", items: ["..."] },
-                            { color: "bg-[#319795]", texto: "PATIOS", items: ["..."] },
                             { color: "bg-[#2D3748]", texto: "ESTACIONAMIENTO", items: ["..."] }
                         ]
                     }
@@ -475,7 +473,7 @@
             tituloSec.textContent = info.tituloSeccion || "Nomenclatura";
             listaNom.innerHTML = '';
 
-            // Caso especial con grupos (como EXTERIOR: IGNACIO DOMEYKO y MECÁNICA)
+            // Caso especial con grupos (como EXTERIOR: ID NORTE e ID SUR)
             if (info.grupos && info.grupos.length > 0) {
                 info.grupos.forEach((grupo, gIdx) => {
                     const bloqueGrupo = document.createElement('div');
