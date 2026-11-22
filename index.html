@@ -253,26 +253,38 @@
                     
                     <!-- Sección Superior: Visor del Plano a ancho completo -->
                     <div class="flex flex-col w-full">
-                        <div class="flex items-center justify-between mb-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                             <h3 class="text-lg font-bold text-blue-950 flex items-center">
                                 <i data-lucide="map" class="w-5 h-5 mr-2 text-blue-700"></i>
-                                Plano <span id="subtitulo-piso" class="ml-1.5 text-blue-700 font-extrabold">Piso 1</span>
+                                Plano <span id="subtitulo-piso" class="ml-1.5 text-blue-700 font-extrabold">- Piso 1</span>
                             </h3>
-                            <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
-                                Vista en planta
-                            </span>
+
+                            <!-- Controles de Zoom + Etiqueta -->
+                            <div class="flex items-center gap-2">
+                                <div id="controles-zoom" class="hidden items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+                                    <button type="button" onclick="ajustarZoom(-0.25)" title="Achicar"
+                                            class="p-1.5 rounded-md hover:bg-white text-slate-700 transition-colors">
+                                        <i data-lucide="zoom-out" class="w-4 h-4"></i>
+                                    </button>
+                                    <span id="indicador-zoom" class="text-xs font-bold text-blue-950 px-1.5 min-w-[44px] text-center">100%</span>
+                                    <button type="button" onclick="ajustarZoom(0.25)" title="Agrandar"
+                                            class="p-1.5 rounded-md hover:bg-white text-slate-700 transition-colors">
+                                        <i data-lucide="zoom-in" class="w-4 h-4"></i>
+                                    </button>
+                                    <button type="button" onclick="resetearZoom()" title="Restablecer vista"
+                                            class="px-2 py-1 rounded-md hover:bg-white text-[11px] font-semibold text-blue-900 transition-colors">
+                                        Restablecer
+                                    </button>
+                                </div>
+                                <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                                    Vista en planta
+                                </span>
+                            </div>
                         </div>
                         
                         <!-- Contenedor visual del plano -->
-                        <div id="contenedor-plano" class="relative w-full min-h-[380px] sm:min-h-[460px] bg-slate-50 rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-                            <div class="absolute inset-3 border border-blue-200/70 rounded-xl pointer-events-none"></div>
-                            <div class="bg-blue-100 text-blue-900 p-4 rounded-full mb-3 shadow-inner">
-                                <i data-lucide="compass" class="w-9 h-9"></i>
-                            </div>
-                            <p id="plano-titulo" class="font-bold text-blue-950 text-xl mb-1">Plano de Sector - Piso 1</p>
-                            <p class="text-sm text-slate-500 max-w-md">
-                                Espacio reservado para la imagen o diagrama interactivo correspondiente a este nivel.
-                            </p>
+                        <div id="contenedor-plano" class="relative w-full min-h-[420px] sm:min-h-[540px] bg-slate-100 rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-4 sm:p-6 text-center overflow-hidden select-none">
+                            <!-- Se rellena dinámicamente según si hay imagen o marcador de posición -->
                         </div>
                     </div>
 
@@ -318,7 +330,7 @@
             return Array.from({ length: cantidad }, () => "...");
         }
 
-        // Configuración de los 5 sectores, sus pisos y su nomenclatura / zonas
+        // Configuración de los 5 sectores, sus pisos, planos y nomenclatura / zonas
         const datosSectores = {
             domeyko: {
                 titulo: "Ignacio Domeyko",
@@ -397,6 +409,9 @@
                 etiqueta: "Vista General del Campus",
                 tituloSeccion: "Zonas",
                 pisos: ["Piso 1 (Exterior)"],
+                planos: {
+                    "Piso 1 (Exterior)": "img/exterior.jpg"
+                },
                 grupos: [
                     {
                         subtitulo: "ID NORTE",
@@ -426,6 +441,112 @@
         };
 
         let sectorActualClave = null;
+
+        // Estado de zoom y arrastre (pan)
+        let escalaZoom = 1;
+        let posX = 0;
+        let posY = 0;
+        let arrastrando = false;
+        let inicioX = 0;
+        let inicioY = 0;
+        let distanciaPinchInicial = null;
+        let escalaPinchInicial = 1;
+
+        function aplicarTransformacionImagen() {
+            const img = document.getElementById('imagen-plano-zoom');
+            const indicador = document.getElementById('indicador-zoom');
+            if (img) {
+                img.style.transform = `translate(${posX}px, ${posY}px) scale(${escalaZoom})`;
+            }
+            if (indicador) {
+                indicador.textContent = `${Math.round(escalaZoom * 100)}%`;
+            }
+        }
+
+        function ajustarZoom(delta) {
+            escalaZoom = Math.min(4, Math.max(0.75, +(escalaZoom + delta).toFixed(2)));
+            if (escalaZoom <= 1) {
+                posX = 0;
+                posY = 0;
+            }
+            aplicarTransformacionImagen();
+        }
+
+        function resetearZoom() {
+            escalaZoom = 1;
+            posX = 0;
+            posY = 0;
+            aplicarTransformacionImagen();
+        }
+
+        function configurarInteraccionZoom(escenario) {
+            // Zoom con rueda del mouse
+            escenario.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY < 0 ? 0.2 : -0.2;
+                ajustarZoom(delta);
+            }, { passive: false });
+
+            // Arrastre con mouse
+            escenario.addEventListener('mousedown', (e) => {
+                arrastrando = true;
+                inicioX = e.clientX - posX;
+                inicioY = e.clientY - posY;
+                escenario.classList.remove('cursor-grab');
+                escenario.classList.add('cursor-grabbing');
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!arrastrando) return;
+                posX = e.clientX - inicioX;
+                posY = e.clientY - inicioY;
+                aplicarTransformacionImagen();
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!arrastrando) return;
+                arrastrando = false;
+                escenario.classList.remove('cursor-grabbing');
+                escenario.classList.add('cursor-grab');
+            });
+
+            // Arrastre y pellizco (pinch-to-zoom) en pantalla táctil
+            escenario.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    arrastrando = true;
+                    inicioX = e.touches[0].clientX - posX;
+                    inicioY = e.touches[0].clientY - posY;
+                } else if (e.touches.length === 2) {
+                    arrastrando = false;
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    distanciaPinchInicial = Math.hypot(dx, dy);
+                    escalaPinchInicial = escalaZoom;
+                }
+            }, { passive: false });
+
+            escenario.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && arrastrando) {
+                    e.preventDefault();
+                    posX = e.touches[0].clientX - inicioX;
+                    posY = e.touches[0].clientY - inicioY;
+                    aplicarTransformacionImagen();
+                } else if (e.touches.length === 2 && distanciaPinchInicial) {
+                    e.preventDefault();
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const distanciaActual = Math.hypot(dx, dy);
+                    const nuevaEscala = escalaPinchInicial * (distanciaActual / distanciaPinchInicial);
+                    escalaZoom = Math.min(4, Math.max(0.75, +nuevaEscala.toFixed(2)));
+                    aplicarTransformacionImagen();
+                }
+            }, { passive: false });
+
+            escenario.addEventListener('touchend', () => {
+                arrastrando = false;
+                distanciaPinchInicial = null;
+            });
+        }
 
         // Construir una tarjeta desplegable individual con círculo numerado y '...'
         function crearTarjetaDesplegable(item, idBase) {
@@ -473,7 +594,6 @@
             tituloSec.textContent = info.tituloSeccion || "Nomenclatura";
             listaNom.innerHTML = '';
 
-            // Caso especial con grupos (como EXTERIOR: ID NORTE e ID SUR)
             if (info.grupos && info.grupos.length > 0) {
                 info.grupos.forEach((grupo, gIdx) => {
                     const bloqueGrupo = document.createElement('div');
@@ -501,7 +621,6 @@
                     listaNom.appendChild(bloqueGrupo);
                 });
             } else {
-                // Caso estándar por piso o lista única
                 const gridEstandar = document.createElement('div');
                 gridEstandar.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start";
 
@@ -530,7 +649,6 @@
             document.getElementById('detalle-titulo').textContent = "Plano - " + info.titulo;
             document.getElementById('detalle-etiqueta').textContent = info.etiqueta;
 
-            // Generar botones de pisos
             const contenedorPisos = document.getElementById('contenedor-pisos');
             contenedorPisos.innerHTML = '';
 
@@ -542,17 +660,13 @@
                     ? "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-white text-blue-950 shadow-sm transition-all"
                     : "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition-all";
                 btn.textContent = piso;
-                btn.onclick = () => seleccionarPiso(btn, info.titulo, piso);
+                btn.onclick = () => seleccionarPiso(btn, clave, info.titulo, piso);
                 contenedorPisos.appendChild(btn);
             });
 
-            // Renderizar nomenclatura o zonas del primer piso
             renderizarNomenclatura(clave, primerPiso);
+            actualizarVisorPlano(clave, info.titulo, primerPiso);
 
-            // Cargar primer piso por defecto
-            actualizarVisorPlano(info.titulo, primerPiso);
-
-            // Cambiar de vista
             document.getElementById('vista-portada').classList.add('hidden');
             const vistaDetalle = document.getElementById('vista-detalle');
             vistaDetalle.classList.remove('hidden');
@@ -575,24 +689,68 @@
         }
 
         // Cambiar entre pisos dentro del mismo sector
-        function seleccionarPiso(botonClickeado, tituloSector, nombrePiso) {
+        function seleccionarPiso(botonClickeado, clave, tituloSector, nombrePiso) {
             const botones = document.querySelectorAll('.btn-piso');
             botones.forEach(b => {
                 b.className = "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition-all";
             });
             botonClickeado.className = "btn-piso px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-white text-blue-950 shadow-sm transition-all";
 
-            if (sectorActualClave) {
-                renderizarNomenclatura(sectorActualClave, nombrePiso);
-            }
-
-            actualizarVisorPlano(tituloSector, nombrePiso);
+            renderizarNomenclatura(clave, nombrePiso);
+            actualizarVisorPlano(clave, tituloSector, nombrePiso);
         }
 
         // Actualizar el área visual del plano según el piso elegido
-        function actualizarVisorPlano(tituloSector, nombrePiso) {
+        function actualizarVisorPlano(clave, tituloSector, nombrePiso) {
             document.getElementById('subtitulo-piso').textContent = "- " + nombrePiso;
-            document.getElementById('plano-titulo').textContent = `Plano de ${tituloSector} (${nombrePiso})`;
+            const contenedor = document.getElementById('contenedor-plano');
+            const controlesZoom = document.getElementById('controles-zoom');
+
+            escalaZoom = 1;
+            posX = 0;
+            posY = 0;
+
+            const rutaImagen = datosSectores[clave]?.planos?.[nombrePiso];
+
+            if (rutaImagen) {
+                contenedor.className = "relative w-full h-[460px] sm:h-[600px] bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden select-none";
+                controlesZoom.classList.remove('hidden');
+                controlesZoom.classList.add('flex');
+
+                contenedor.innerHTML = `
+                    <div id="escenario-zoom" class="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden">
+                        <img id="imagen-plano-zoom"
+                             src="${rutaImagen}"
+                             alt="Plano de ${tituloSector} (${nombrePiso})"
+                             draggable="false"
+                             class="max-h-full max-w-full object-contain transition-transform duration-75 ease-out origin-center" />
+                    </div>
+                    <div class="absolute bottom-3 left-3 bg-blue-950/80 text-white text-[11px] px-3 py-1.5 rounded-lg backdrop-blur-xs pointer-events-none">
+                        Rueda o botones para zoom • Arrastra para moverte
+                    </div>
+                `;
+
+                const escenario = document.getElementById('escenario-zoom');
+                configurarInteraccionZoom(escenario);
+                aplicarTransformacionImagen();
+                lucide.createIcons();
+            } else {
+                contenedor.className = "relative w-full min-h-[380px] sm:min-h-[460px] bg-slate-50 rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-6 text-center overflow-hidden";
+                controlesZoom.classList.add('hidden');
+                controlesZoom.classList.remove('flex');
+
+                contenedor.innerHTML = `
+                    <div class="absolute inset-3 border border-blue-200/70 rounded-xl pointer-events-none"></div>
+                    <div class="bg-blue-100 text-blue-900 p-4 rounded-full mb-3 shadow-inner">
+                        <i data-lucide="compass" class="w-9 h-9"></i>
+                    </div>
+                    <p id="plano-titulo" class="font-bold text-blue-950 text-xl mb-1">Plano de ${tituloSector} (${nombrePiso})</p>
+                    <p class="text-sm text-slate-500 max-w-md">
+                        Espacio reservado para la imagen o diagrama interactivo correspondiente a este nivel.
+                    </p>
+                `;
+                lucide.createIcons();
+            }
         }
 
         // Volver a la portada con los 5 bloques
