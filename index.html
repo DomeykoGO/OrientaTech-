@@ -248,11 +248,11 @@
                     </div>
                 </div>
 
-                <!-- Contenido del sector: Plano (Izquierda/Centro) + Bloque Rectangular Parado (Derecha) -->
-                <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+                <!-- Contenido vertical: Plano expandido a todo el ancho arriba + Nomenclatura horizontal abajo -->
+                <div class="p-6 sm:p-8 space-y-8">
                     
-                    <!-- Columna Principal (3/4): Visor del Plano -->
-                    <div class="lg:col-span-3 flex flex-col">
+                    <!-- Sección Superior: Visor del Plano a ancho completo -->
+                    <div class="flex flex-col w-full">
                         <div class="flex items-center justify-between mb-3">
                             <h3 class="text-lg font-bold text-blue-950 flex items-center">
                                 <i data-lucide="map" class="w-5 h-5 mr-2 text-blue-700"></i>
@@ -264,7 +264,7 @@
                         </div>
                         
                         <!-- Contenedor visual del plano -->
-                        <div id="contenedor-plano" class="relative w-full flex-grow min-h-[360px] sm:min-h-[440px] bg-slate-50 rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+                        <div id="contenedor-plano" class="relative w-full min-h-[380px] sm:min-h-[460px] bg-slate-50 rounded-2xl border-2 border-dashed border-blue-300 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
                             <div class="absolute inset-3 border border-blue-200/70 rounded-xl pointer-events-none"></div>
                             <div class="bg-blue-100 text-blue-900 p-4 rounded-full mb-3 shadow-inner">
                                 <i data-lucide="compass" class="w-9 h-9"></i>
@@ -276,28 +276,26 @@
                         </div>
                     </div>
 
-                    <!-- Columna Derecha (1/4): Bloque rectangular parado para Nomenclaturas -->
-                    <aside class="lg:col-span-1 bg-slate-50 rounded-2xl border-2 border-blue-950/15 shadow-sm p-5 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-center gap-2 pb-3 mb-4 border-b-2 border-blue-950/10">
+                    <!-- Sección Inferior: Nomenclatura debajo del plano con subtítulos horizontales -->
+                    <section class="bg-slate-50 rounded-2xl border-2 border-blue-950/15 shadow-sm p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-5 border-b-2 border-blue-950/10">
+                            <div class="flex items-center gap-2">
                                 <i data-lucide="list-filter" class="w-5 h-5 text-blue-900"></i>
-                                <h3 class="text-base font-extrabold text-blue-950 uppercase tracking-wide">
+                                <h3 class="text-base sm:text-lg font-extrabold text-blue-950 uppercase tracking-wide">
                                     Nomenclatura
                                 </h3>
                             </div>
-
-                            <!-- Lista de símbolos / colores -->
-                            <ul id="detalle-nomenclatura" class="space-y-2 text-sm">
-                                <!-- Se llena dinámicamente con JS -->
-                            </ul>
+                            <span class="text-xs text-slate-500 flex items-center">
+                                <i data-lucide="info" class="w-3.5 h-3.5 mr-1.5 text-blue-700 shrink-0"></i>
+                                Toca una categoría para desplegar su numeración hacia abajo.
+                            </span>
                         </div>
 
-                        <!-- Nota informativa en la parte inferior del rectángulo -->
-                        <div class="mt-6 pt-4 border-t border-slate-200/80 text-xs text-slate-500 flex items-start">
-                            <i data-lucide="info" class="w-4 h-4 mr-2 text-blue-700 shrink-0 mt-0.5"></i>
-                            <span>Simbología referencial para identificar recintos y vías de evacuación.</span>
+                        <!-- Subtítulos ordenados en horizontal; cada uno expande su contenido hacia abajo -->
+                        <div id="detalle-nomenclatura" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start">
+                            <!-- Se llena dinámicamente con JS -->
                         </div>
-                    </aside>
+                    </section>
 
                 </div>
             </div>
@@ -316,21 +314,21 @@
     <script>
         lucide.createIcons();
 
-        // Configuración de los 5 sectores, sus pisos y su nomenclatura unificada
+        // Cantidad inicial de filas numeradas por nomenclatura (puedes cambiar cada número o poner textos después)
         const datosSectores = {
             domeyko: {
                 titulo: "Ignacio Domeyko",
                 etiqueta: "Edificio Principal",
                 pisos: ["Subterráneo", "Piso 1", "Piso 2", "Piso 3"],
                 nomenclatura: [
-                    { color: "bg-[#1A365D]", texto: "Salas" },
-                    { color: "bg-[#2F855A]", texto: "Baños" },
-                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
-                    { color: "bg-[#4A5568]", texto: "Oficinas" },
-                    { color: "bg-[#553C9A]", texto: "Departamentos" },
-                    { color: "bg-[#319795]", texto: "C.E.C" },
-                    { color: "bg-[#B7791F]", texto: "Bodega" },
-                    { color: "bg-[#D69E2E]", texto: "Servicios" }
+                    { color: "bg-[#1A365D]", texto: "Salas", items: ["...", "...", "..."] },
+                    { color: "bg-[#2F855A]", texto: "Baños", items: ["...", "..."] },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios", items: ["...", "..."] },
+                    { color: "bg-[#4A5568]", texto: "Oficinas", items: ["...", "...", "..."] },
+                    { color: "bg-[#553C9A]", texto: "Departamentos", items: ["...", "..."] },
+                    { color: "bg-[#319795]", texto: "C.E.C", items: ["..."] },
+                    { color: "bg-[#B7791F]", texto: "Bodega", items: ["...", "..."] },
+                    { color: "bg-[#D69E2E]", texto: "Servicios", items: ["...", "..."] }
                 ]
             },
             industrial: {
@@ -338,14 +336,14 @@
                 etiqueta: "Departamento de Ingeniería",
                 pisos: ["Piso 1", "Piso 2"],
                 nomenclatura: [
-                    { color: "bg-[#1A365D]", texto: "Salas" },
-                    { color: "bg-[#2F855A]", texto: "Baños" },
-                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
-                    { color: "bg-[#4A5568]", texto: "Oficinas" },
-                    { color: "bg-[#553C9A]", texto: "Departamentos" },
-                    { color: "bg-[#319795]", texto: "C.E.C" },
-                    { color: "bg-[#B7791F]", texto: "Bodega" },
-                    { color: "bg-[#D69E2E]", texto: "Servicios" }
+                    { color: "bg-[#1A365D]", texto: "Salas", items: ["...", "...", "..."] },
+                    { color: "bg-[#2F855A]", texto: "Baños", items: ["...", "..."] },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios", items: ["...", "..."] },
+                    { color: "bg-[#4A5568]", texto: "Oficinas", items: ["...", "...", "..."] },
+                    { color: "bg-[#553C9A]", texto: "Departamentos", items: ["...", "..."] },
+                    { color: "bg-[#319795]", texto: "C.E.C", items: ["..."] },
+                    { color: "bg-[#B7791F]", texto: "Bodega", items: ["...", "..."] },
+                    { color: "bg-[#D69E2E]", texto: "Servicios", items: ["...", "..."] }
                 ]
             },
             mecanica: {
@@ -353,14 +351,14 @@
                 etiqueta: "Talleres e Ingeniería",
                 pisos: ["Piso 1", "Piso 2", "Piso 3", "Piso 4"],
                 nomenclatura: [
-                    { color: "bg-[#1A365D]", texto: "Salas" },
-                    { color: "bg-[#2F855A]", texto: "Baños" },
-                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
-                    { color: "bg-[#4A5568]", texto: "Oficinas" },
-                    { color: "bg-[#553C9A]", texto: "Departamentos" },
-                    { color: "bg-[#319795]", texto: "C.E.C" },
-                    { color: "bg-[#B7791F]", texto: "Bodega" },
-                    { color: "bg-[#D69E2E]", texto: "Servicios" }
+                    { color: "bg-[#1A365D]", texto: "Salas", items: ["...", "...", "..."] },
+                    { color: "bg-[#2F855A]", texto: "Baños", items: ["...", "..."] },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios", items: ["...", "...", "..."] },
+                    { color: "bg-[#4A5568]", texto: "Oficinas", items: ["...", "...", "..."] },
+                    { color: "bg-[#553C9A]", texto: "Departamentos", items: ["...", "..."] },
+                    { color: "bg-[#319795]", texto: "C.E.C", items: ["..."] },
+                    { color: "bg-[#B7791F]", texto: "Bodega", items: ["...", "..."] },
+                    { color: "bg-[#D69E2E]", texto: "Servicios", items: ["...", "..."] }
                 ]
             },
             cetefi: {
@@ -368,14 +366,14 @@
                 etiqueta: "Centro Tecnológico",
                 pisos: ["Piso 1", "Piso 2", "Piso 3", "Piso 4"],
                 nomenclatura: [
-                    { color: "bg-[#1A365D]", texto: "Salas" },
-                    { color: "bg-[#2F855A]", texto: "Baños" },
-                    { color: "bg-[#2B6CB0]", texto: "Laboratorios" },
-                    { color: "bg-[#4A5568]", texto: "Oficinas" },
-                    { color: "bg-[#553C9A]", texto: "Departamentos" },
-                    { color: "bg-[#319795]", texto: "C.E.C" },
-                    { color: "bg-[#B7791F]", texto: "Bodega" },
-                    { color: "bg-[#D69E2E]", texto: "Servicios" }
+                    { color: "bg-[#1A365D]", texto: "Salas", items: ["...", "...", "..."] },
+                    { color: "bg-[#2F855A]", texto: "Baños", items: ["...", "..."] },
+                    { color: "bg-[#2B6CB0]", texto: "Laboratorios", items: ["...", "...", "..."] },
+                    { color: "bg-[#4A5568]", texto: "Oficinas", items: ["...", "...", "..."] },
+                    { color: "bg-[#553C9A]", texto: "Departamentos", items: ["...", "..."] },
+                    { color: "bg-[#319795]", texto: "C.E.C", items: ["..."] },
+                    { color: "bg-[#B7791F]", texto: "Bodega", items: ["...", "..."] },
+                    { color: "bg-[#D69E2E]", texto: "Servicios", items: ["...", "..."] }
                 ]
             },
             exterior: {
@@ -383,12 +381,12 @@
                 etiqueta: "Vista General del Campus",
                 pisos: ["Piso 1 (Exterior)"],
                 nomenclatura: [
-                    { color: "bg-[#2D3748]", texto: "Estacionamientos" },
-                    { color: "bg-[#9B2C2C]", texto: "Casino" },
-                    { color: "bg-[#2F855A]", texto: "Baños" },
-                    { color: "bg-[#319795]", texto: "C.E.C" },
-                    { color: "bg-[#B7791F]", texto: "Bodega" },
-                    { color: "bg-[#D69E2E]", texto: "Servicios" }
+                    { color: "bg-[#2D3748]", texto: "Estacionamientos", items: ["...", "...", "..."] },
+                    { color: "bg-[#9B2C2C]", texto: "Casino", items: ["..."] },
+                    { color: "bg-[#2F855A]", texto: "Baños", items: ["...", "..."] },
+                    { color: "bg-[#319795]", texto: "C.E.C", items: ["..."] },
+                    { color: "bg-[#B7791F]", texto: "Bodega", items: ["...", "..."] },
+                    { color: "bg-[#D69E2E]", texto: "Servicios", items: ["...", "..."] }
                 ]
             }
         };
@@ -415,19 +413,45 @@
                 contenedorPisos.appendChild(btn);
             });
 
-            // Generar lista de nomenclaturas en el bloque rectangular derecho
+            // Generar subtítulos horizontales de nomenclatura que expanden hacia abajo
             const listaNom = document.getElementById('detalle-nomenclatura');
             listaNom.innerHTML = '';
 
-            info.nomenclatura.forEach(item => {
-                const li = document.createElement('li');
-                li.className = "flex items-center bg-white px-2.5 py-1.5 rounded-lg border border-slate-200/90 shadow-2xs text-xs sm:text-sm";
-                li.innerHTML = `
-                    <span class="w-4 h-4 rounded-md ${item.color} mr-3 shrink-0 shadow-xs"></span>
-                    <span class="text-slate-700 font-medium leading-tight">${item.texto}</span>
+            info.nomenclatura.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden";
+
+                const subId = `sublista-${clave}-${idx}`;
+                const chevronId = `chevron-${clave}-${idx}`;
+
+                const subItemsHtml = (item.items || ["..."]).map((detalle, i) => `
+                    <div class="flex items-center px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200/70">
+                        <span class="w-5 h-5 rounded-full ${item.color} text-white text-[11px] font-bold flex items-center justify-center mr-2.5 shrink-0">
+                            ${i + 1}
+                        </span>
+                        <span class="text-slate-600 text-xs font-medium">${detalle}</span>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <button type="button"
+                            onclick="toggleNomenclatura('${subId}', '${chevronId}')"
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-slate-50 transition-colors focus:outline-none">
+                        <span class="flex items-center min-w-0">
+                            <span class="w-4 h-4 rounded-md ${item.color} mr-2.5 shrink-0 shadow-2xs"></span>
+                            <span class="text-slate-800 font-semibold text-xs sm:text-sm truncate">${item.texto}</span>
+                        </span>
+                        <i id="${chevronId}" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 shrink-0 ml-2 transition-transform duration-200"></i>
+                    </button>
+                    <div id="${subId}" class="hidden px-2.5 pb-2.5 pt-1.5 space-y-1.5 border-t border-slate-100">
+                        ${subItemsHtml}
+                    </div>
                 `;
-                listaNom.appendChild(li);
+
+                listaNom.appendChild(card);
             });
+
+            lucide.createIcons();
 
             // Cargar primer piso por defecto
             actualizarVisorPlano(info.titulo, info.pisos[0]);
@@ -438,6 +462,20 @@
             vistaDetalle.classList.remove('hidden');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Expandir o contraer una nomenclatura hacia abajo
+        function toggleNomenclatura(subId, chevronId) {
+            const sublista = document.getElementById(subId);
+            const chevron = document.getElementById(chevronId);
+            if (!sublista) return;
+
+            const estaOculto = sublista.classList.contains('hidden');
+            sublista.classList.toggle('hidden');
+
+            if (chevron) {
+                chevron.classList.toggle('rotate-180', estaOculto);
+            }
         }
 
         // Cambiar entre pisos dentro del mismo sector
