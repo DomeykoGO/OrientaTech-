@@ -762,6 +762,14 @@
                 etiqueta: "ID Sur • DGAE / Fundición",
                 tituloSeccion: "Nomenclatura",
                 pisos: ["Piso 1", "Piso 2"],
+                planos: {
+                    "Piso 1": "img/dgae_piso1.jpg"
+                },
+                planosMobile: {
+                    "Piso 1": "img/dgae_piso1_mobile.jpg"
+                },
+                rotacionDesktop: 0,
+                rotacionMobile: 0,
                 pisosData: {
                     "Piso 1": [
                         {
@@ -771,10 +779,11 @@
                                 "Sala computación",
                                 "Sala reuniones y trabajo",
                                 "Sala microfilm",
-                                "Sala de clases fundición"
+                                "Sala de clases fundición",
+                                ...crearPuntos(8)
                             ])
                         },
-                        { color: "#2F855A", texto: "Baños", items: crearPuntos(4) },
+                        { color: "#2F855A", texto: "Baños", items: crearPuntos(6) },
                         {
                             color: "#2B6CB0",
                             texto: "Laboratorios",
@@ -785,7 +794,8 @@
                             texto: "Oficinas",
                             items: crearListaUnica([
                                 "Oficina académica",
-                                "Oficina (Fundición)"
+                                "Oficina (Fundición)",
+                                ...crearPuntos(5)
                             ])
                         },
                         {
@@ -803,10 +813,11 @@
                             texto: "Bodega",
                             items: crearListaUnica([
                                 "Archivo mistraliano (bodega)",
-                                "Bodega (Fundición)"
+                                "Bodega (Fundición)",
+                                ...crearPuntos(6)
                             ])
                         },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#D97706", texto: "Taller", items: crearPuntos(1) }
                     ],
                     "Piso 2": [
                         {
