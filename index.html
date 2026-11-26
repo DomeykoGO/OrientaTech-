@@ -461,7 +461,7 @@
         lucide.createIcons();
 
         function crearPuntos(cantidad) {
-            return Array.from({ length: cantidad }, () => "...");
+            return Array.from({ length: Math.max(0, cantidad) }, () => "...");
         }
 
         function crearListaUnica(etiquetas) {
@@ -552,9 +552,7 @@
                     "Piso 1": [
                         { color: "#1A365D", texto: "Salas", items: crearPuntos(8) },
                         { color: "#2F855A", texto: "Baños", items: crearPuntos(4) },
-                        { color: "#2B6CB0", texto: "Laboratorios", items: [] },
                         { color: "#4A5568", texto: "Oficinas", items: crearPuntos(8) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
                         { color: "#319795", texto: "C.E.C", items: crearPuntos(5) },
                         { color: "#B7791F", texto: "Bodega", items: crearPuntos(1) },
                         { color: "#D69E2E", texto: "Servicios", items: crearPuntos(2) }
@@ -564,10 +562,8 @@
                         { color: "#2F855A", texto: "Baños", items: crearPuntos(2) },
                         { color: "#2B6CB0", texto: "Laboratorios", items: crearPuntos(2) },
                         { color: "#4A5568", texto: "Oficinas", items: crearPuntos(2) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
                         { color: "#319795", texto: "C.E.C", items: crearPuntos(5) },
-                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(4) },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(4) }
                     ]
                 }
             },
@@ -593,31 +589,14 @@
                 rotacionMobile: 0,
                 pisosData: {
                     "Piso 1": [
-                        { color: "#1A365D", texto: "Salas", items: crearListaUnica(["Sala de clases"]) },
-                        {
-                            color: "#2B6CB0",
-                            texto: "Laboratorios",
-                            items: crearListaUnica([
-                                "L. Termofluidos",
-                                "L. Térmica",
-                                "L. Lubricación",
-                                "L. Transferencia de calor",
-                                "L. Máquinas térmicas"
-                            ])
-                        },
+                        { color: "#1A365D", texto: "Salas", items: crearPuntos(2) },
+                        { color: "#2B6CB0", texto: "Laboratorios", items: crearPuntos(3) },
                         { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) },
-                        { color: "#B7791F", texto: "Bodega", items: crearListaUnica(["Pañol"]) },
+                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(2) },
                         { color: "#D97706", texto: "Taller", items: crearPuntos(3) }
                     ],
                     "Piso 2": [
-                        { color: "#1A365D", texto: "Salas", items: [] },
-                        { color: "#2F855A", texto: "Baños", items: [] },
-                        { color: "#2B6CB0", texto: "Laboratorios", items: [] },
-                        { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: [] },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) }
                     ],
                     "Piso 3": [
                         {
@@ -629,7 +608,6 @@
                                 "Sala de estudio"
                             ])
                         },
-                        { color: "#2F855A", texto: "Baños", items: [] },
                         {
                             color: "#2B6CB0",
                             texto: "Laboratorios",
@@ -646,24 +624,14 @@
                                 "Oficina par."
                             ])
                         },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: crearListaUnica(["Bodega"]) },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#B7791F", texto: "Bodega", items: crearListaUnica(["Bodega"]) }
                     ],
                     "Piso 4": [
-                        { color: "#1A365D", texto: "Salas", items: [] },
-                        { color: "#2F855A", texto: "Baños", items: [] },
                         {
                             color: "#2B6CB0",
                             texto: "Laboratorios",
                             items: crearListaUnica(["L. Computación"])
-                        },
-                        { color: "#4A5568", texto: "Oficinas", items: [] },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: [] },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        }
                     ]
                 }
             },
@@ -710,20 +678,10 @@
                             color: "#553C9A",
                             texto: "Departamentos",
                             items: crearListaUnica(["Salón Julio Guzmán"])
-                        },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: [] },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        }
                     ],
                     "Piso 2": [
-                        { color: "#1A365D", texto: "Salas", items: [] },
-                        { color: "#2F855A", texto: "Baños", items: [] },
-                        { color: "#2B6CB0", texto: "Laboratorios", items: [] },
-                        { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: [] },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) }
                     ],
                     "Piso 3": [
                         {
@@ -746,14 +704,7 @@
                             color: "#1A365D",
                             texto: "Salas",
                             items: crearListaUnica(["Sala de proyecciones"])
-                        },
-                        { color: "#2F855A", texto: "Baños", items: [] },
-                        { color: "#2B6CB0", texto: "Laboratorios", items: [] },
-                        { color: "#4A5568", texto: "Oficinas", items: [] },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: [] },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        }
                     ]
                 }
             },
@@ -772,51 +723,11 @@
                 rotacionMobile: 0,
                 pisosData: {
                     "Piso 1": [
-                        {
-                            color: "#1A365D",
-                            texto: "Salas",
-                            items: crearListaUnica([
-                                "Sala computación",
-                                "Sala reuniones y trabajo",
-                                "Sala microfilm",
-                                "Sala de clases fundición",
-                                ...crearPuntos(8)
-                            ])
-                        },
+                        { color: "#1A365D", texto: "Salas", items: crearPuntos(8) },
                         { color: "#2F855A", texto: "Baños", items: crearPuntos(6) },
-                        {
-                            color: "#2B6CB0",
-                            texto: "Laboratorios",
-                            items: crearListaUnica(["L. Certificación eléctrica (Fundición)"])
-                        },
-                        {
-                            color: "#4A5568",
-                            texto: "Oficinas",
-                            items: crearListaUnica([
-                                "Oficina académica",
-                                "Oficina (Fundición)",
-                                ...crearPuntos(5)
-                            ])
-                        },
-                        {
-                            color: "#553C9A",
-                            texto: "Departamentos",
-                            items: crearListaUnica(["Biblioteca externa"])
-                        },
-                        {
-                            color: "#319795",
-                            texto: "C.E.C",
-                            items: crearListaUnica(["Taller elaboración materiales"])
-                        },
-                        {
-                            color: "#B7791F",
-                            texto: "Bodega",
-                            items: crearListaUnica([
-                                "Archivo mistraliano (bodega)",
-                                "Bodega (Fundición)",
-                                ...crearPuntos(6)
-                            ])
-                        },
+                        { color: "#2B6CB0", texto: "Laboratorios", items: crearPuntos(1) },
+                        { color: "#4A5568", texto: "Oficinas", items: crearPuntos(5) },
+                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(6) },
                         { color: "#D97706", texto: "Taller", items: crearPuntos(1) }
                     ],
                     "Piso 2": [
@@ -825,13 +736,8 @@
                             texto: "Salas",
                             items: crearListaUnica(["Sala de reuniones"])
                         },
-                        { color: "#2F855A", texto: "Baños", items: [] },
-                        { color: "#2B6CB0", texto: "Laboratorios", items: [] },
                         { color: "#4A5568", texto: "Oficinas", items: crearPuntos(10) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
-                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(2) },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#B7791F", texto: "Bodega", items: crearPuntos(2) }
                     ]
                 }
             },
@@ -968,7 +874,7 @@
             const subId = `sublista-${idBase}`;
             const chevronId = `chevron-${idBase}`;
 
-            const listaItems = (item.items && item.items.length > 0) ? item.items : ["..."];
+            const listaItems = item.items || [];
             const subItemsHtml = listaItems.map((detalle, i) => `
                 <div class="flex items-center px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200/70">
                     <span style="background-color: ${hexColor};"
@@ -1010,6 +916,9 @@
 
             if (info.grupos && info.grupos.length > 0) {
                 info.grupos.forEach((grupo, gIdx) => {
+                    const itemsValidos = (grupo.items || []).filter(item => item.items && item.items.length > 0);
+                    if (itemsValidos.length === 0) return;
+
                     const bloqueGrupo = document.createElement('div');
                     bloqueGrupo.className = "space-y-3";
 
@@ -1026,7 +935,7 @@
                     const gridGrupo = document.createElement('div');
                     gridGrupo.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start";
 
-                    grupo.items.forEach((item, idx) => {
+                    itemsValidos.forEach((item, idx) => {
                         const idBase = `${clave}-g${gIdx}-${nombrePiso.replace(/\s+/g, '-')}-${idx}`;
                         gridGrupo.appendChild(crearTarjetaDesplegable(item, idBase));
                     });
@@ -1035,19 +944,30 @@
                     listaNom.appendChild(bloqueGrupo);
                 });
             } else {
-                const gridEstandar = document.createElement('div');
-                gridEstandar.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start";
-
-                const itemsNom = (info.pisosData && info.pisosData[nombrePiso])
+                const itemsNomRaw = (info.pisosData && info.pisosData[nombrePiso])
                     ? info.pisosData[nombrePiso]
                     : (info.nomenclatura || []);
 
-                itemsNom.forEach((item, idx) => {
-                    const idBase = `${clave}-${nombrePiso.replace(/\s+/g, '-')}-${idx}`;
-                    gridEstandar.appendChild(crearTarjetaDesplegable(item, idBase));
-                });
+                // Elimina automáticamente cualquier categoría con 0 elementos en este piso
+                const itemsNom = itemsNomRaw.filter(item => item.items && item.items.length > 0);
 
-                listaNom.appendChild(gridEstandar);
+                if (itemsNom.length === 0) {
+                    listaNom.innerHTML = `
+                        <p class="text-sm text-slate-500">
+                            No hay nomenclaturas registradas para este nivel.
+                        </p>
+                    `;
+                } else {
+                    const gridEstandar = document.createElement('div');
+                    gridEstandar.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start";
+
+                    itemsNom.forEach((item, idx) => {
+                        const idBase = `${clave}-${nombrePiso.replace(/\s+/g, '-')}-${idx}`;
+                        gridEstandar.appendChild(crearTarjetaDesplegable(item, idBase));
+                    });
+
+                    listaNom.appendChild(gridEstandar);
+                }
             }
 
             lucide.createIcons();
