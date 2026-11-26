@@ -583,10 +583,17 @@
                 etiqueta: "ID Sur • Ingeniería Mecánica",
                 tituloSeccion: "Nomenclatura",
                 pisos: ["Piso 1", "Piso 2", "Piso 3", "Piso 4"],
+                planos: {
+                    "Piso 1": "img/mec1_piso1.jpg"
+                },
+                planosMobile: {
+                    "Piso 1": "img/mec1_piso1_mobile.jpg"
+                },
+                rotacionDesktop: 0,
+                rotacionMobile: 0,
                 pisosData: {
                     "Piso 1": [
                         { color: "#1A365D", texto: "Salas", items: crearListaUnica(["Sala de clases"]) },
-                        { color: "#2F855A", texto: "Baños", items: [] },
                         {
                             color: "#2B6CB0",
                             texto: "Laboratorios",
@@ -599,10 +606,8 @@
                             ])
                         },
                         { color: "#4A5568", texto: "Oficinas", items: crearPuntos(3) },
-                        { color: "#553C9A", texto: "Departamentos", items: [] },
-                        { color: "#319795", texto: "C.E.C", items: [] },
                         { color: "#B7791F", texto: "Bodega", items: crearListaUnica(["Pañol"]) },
-                        { color: "#D69E2E", texto: "Servicios", items: [] }
+                        { color: "#D97706", texto: "Taller", items: crearPuntos(3) }
                     ],
                     "Piso 2": [
                         { color: "#1A365D", texto: "Salas", items: [] },
